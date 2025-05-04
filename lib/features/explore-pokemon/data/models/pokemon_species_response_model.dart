@@ -62,41 +62,65 @@ class PokemonSpeciesAboutResponse {
 
   factory PokemonSpeciesAboutResponse.fromJson(Map<String, dynamic> json) =>
       PokemonSpeciesAboutResponse(
-        baseHappiness: json["base_happiness"],
-        captureRate: json["capture_rate"],
-        color: Color.fromJson(json["color"]),
-        eggGroups:
-            List<Color>.from(json["egg_groups"].map((x) => Color.fromJson(x))),
-        evolutionChain: EvolutionChain.fromJson(json["evolution_chain"]),
+        baseHappiness: json["base_happiness"] ?? 0,
+        captureRate: json["capture_rate"] ?? 0,
+        color: json["color"] != null
+            ? Color.fromJson(json["color"])
+            : Color(name: "unknown", url: ""),
+        eggGroups: json["egg_groups"] != null
+            ? List<Color>.from(json["egg_groups"].map((x) => Color.fromJson(x)))
+            : [],
+        evolutionChain: json["evolution_chain"] != null
+            ? EvolutionChain.fromJson(json["evolution_chain"])
+            : EvolutionChain(url: ""),
         evolvesFromSpecies: json["evolves_from_species"],
-        flavorTextEntries: List<FlavorTextEntry>.from(
-            json["flavor_text_entries"]
-                .map((x) => FlavorTextEntry.fromJson(x))),
-        formDescriptions:
-            List<dynamic>.from(json["form_descriptions"].map((x) => x)),
-        formsSwitchable: json["forms_switchable"],
-        genderRate: json["gender_rate"],
-        genera: List<Genus>.from(json["genera"].map((x) => Genus.fromJson(x))),
-        generation: Color.fromJson(json["generation"]),
-        growthRate: Color.fromJson(json["growth_rate"]),
-        habitat: Color.fromJson(json["habitat"]),
-        hasGenderDifferences: json["has_gender_differences"],
-        hatchCounter: json["hatch_counter"],
-        id: json["id"],
-        isBaby: json["is_baby"],
-        isLegendary: json["is_legendary"],
-        isMythical: json["is_mythical"],
-        name: json["name"],
-        names: List<Name>.from(json["names"].map((x) => Name.fromJson(x))),
-        order: json["order"],
-        palParkEncounters: List<PalParkEncounter>.from(
-            json["pal_park_encounters"]
-                .map((x) => PalParkEncounter.fromJson(x))),
-        pokedexNumbers: List<PokedexNumber>.from(
-            json["pokedex_numbers"].map((x) => PokedexNumber.fromJson(x))),
-        shape: Color.fromJson(json["shape"]),
-        varieties: List<Variety>.from(
-            json["varieties"].map((x) => Variety.fromJson(x))),
+        flavorTextEntries: json["flavor_text_entries"] != null
+            ? List<FlavorTextEntry>.from(json["flavor_text_entries"]
+                .map((x) => FlavorTextEntry.fromJson(x)))
+            : [],
+        formDescriptions: json["form_descriptions"] != null
+            ? List<dynamic>.from(json["form_descriptions"])
+            : [],
+        formsSwitchable: json["forms_switchable"] ?? false,
+        genderRate: json["gender_rate"] ?? -1,
+        genera: json["genera"] != null
+            ? List<Genus>.from(json["genera"].map((x) => Genus.fromJson(x)))
+            : [],
+        generation: json["generation"] != null
+            ? Color.fromJson(json["generation"])
+            : Color(name: "unknown", url: ""),
+        growthRate: json["growth_rate"] != null
+            ? Color.fromJson(json["growth_rate"])
+            : Color(name: "unknown", url: ""),
+        habitat: json["habitat"] != null
+            ? Color.fromJson(json["habitat"])
+            : Color(name: "unknown", url: ""),
+        hasGenderDifferences: json["has_gender_differences"] ?? false,
+        hatchCounter: json["hatch_counter"] ?? 0,
+        id: json["id"] ?? 0,
+        isBaby: json["is_baby"] ?? false,
+        isLegendary: json["is_legendary"] ?? false,
+        isMythical: json["is_mythical"] ?? false,
+        name: json["name"] ?? "unknown",
+        names: json["names"] != null
+            ? List<Name>.from(json["names"].map((x) => Name.fromJson(x)))
+            : [],
+        order: json["order"] ?? 0,
+        palParkEncounters: json["pal_park_encounters"] != null
+            ? List<PalParkEncounter>.from(json["pal_park_encounters"]
+                .map((x) => PalParkEncounter.fromJson(x)))
+            : [],
+        pokedexNumbers: json["pokedex_numbers"] != null
+            ? List<PokedexNumber>.from(
+                json["pokedex_numbers"].map((x) => PokedexNumber.fromJson(x)))
+            : [],
+        shape: json["shape"] != null
+            ? Color.fromJson(json["shape"])
+            : Color(name: "unknown", url: ""),
+        varieties: json["varieties"] != null
+            ? List<Variety>.from(
+                json["varieties"].map((x) => Variety.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -143,8 +167,8 @@ class Color {
   });
 
   factory Color.fromJson(Map<String, dynamic> json) => Color(
-        name: json["name"],
-        url: json["url"],
+        name: json["name"] ?? "unknown",
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -161,7 +185,7 @@ class EvolutionChain {
   });
 
   factory EvolutionChain.fromJson(Map<String, dynamic> json) => EvolutionChain(
-        url: json["url"],
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -182,9 +206,11 @@ class FlavorTextEntry {
 
   factory FlavorTextEntry.fromJson(Map<String, dynamic> json) =>
       FlavorTextEntry(
-        flavorText: json["flavor_text"],
-        language: Color.fromJson(json["language"]),
-        version: Color.fromJson(json["version"]),
+        flavorText: json["flavor_text"] ?? "",
+        language:
+            Color.fromJson(json["language"]) ?? Color(name: "unknown", url: ""),
+        version:
+            Color.fromJson(json["version"]) ?? Color(name: "unknown", url: ""),
       );
 
   Map<String, dynamic> toJson() => {
@@ -204,8 +230,10 @@ class Genus {
   });
 
   factory Genus.fromJson(Map<String, dynamic> json) => Genus(
-        genus: json["genus"],
-        language: Color.fromJson(json["language"]),
+        genus: json["genus"] ?? "",
+        language: json["language"] != null
+            ? Color.fromJson(json["language"])
+            : Color(name: "unknown", url: ""),
       );
 
   Map<String, dynamic> toJson() => {
@@ -224,8 +252,10 @@ class Name {
   });
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
-        language: Color.fromJson(json["language"]),
-        name: json["name"],
+        language: json["language"] != null
+            ? Color.fromJson(json["language"])
+            : Color(name: "unknown", url: ""),
+        name: json["name"] ?? "unknown",
       );
 
   Map<String, dynamic> toJson() => {
@@ -247,9 +277,11 @@ class PalParkEncounter {
 
   factory PalParkEncounter.fromJson(Map<String, dynamic> json) =>
       PalParkEncounter(
-        area: Color.fromJson(json["area"]),
-        baseScore: json["base_score"],
-        rate: json["rate"],
+        area: json["area"] != null
+            ? Color.fromJson(json["area"])
+            : Color(name: "unknown", url: ""),
+        baseScore: json["base_score"] ?? 0,
+        rate: json["rate"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -269,8 +301,10 @@ class PokedexNumber {
   });
 
   factory PokedexNumber.fromJson(Map<String, dynamic> json) => PokedexNumber(
-        entryNumber: json["entry_number"],
-        pokedex: Color.fromJson(json["pokedex"]),
+        entryNumber: json["entry_number"] ?? 0,
+        pokedex: json["pokedex"] != null
+            ? Color.fromJson(json["pokedex"])
+            : Color(name: "unknown", url: ""),
       );
 
   Map<String, dynamic> toJson() => {
@@ -289,8 +323,10 @@ class Variety {
   });
 
   factory Variety.fromJson(Map<String, dynamic> json) => Variety(
-        isDefault: json["is_default"],
-        pokemon: PokemonSpeciesMapper.fromJson(json["pokemon"]),
+        isDefault: json["is_default"] ?? false,
+        pokemon: json["pokemon"] != null
+            ? PokemonSpeciesMapper.fromJson(json["pokemon"])
+            : throw Exception("Pokemon data is missing"),
       );
 
   Map<String, dynamic> toJson() => {

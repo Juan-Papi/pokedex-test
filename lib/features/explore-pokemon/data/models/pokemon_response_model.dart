@@ -16,14 +16,16 @@ class PokemonResponse {
 
   factory PokemonResponse.fromJson(Map<String, dynamic> json) =>
       PokemonResponse(
-        id: json["id"],
-        name: json["name"],
-        pokemonSpeciesDetails: List<PokemonSpeciesDetail>.from(
-            json["pokemon_species_details"]
-                .map((x) => PokemonSpeciesDetailMapper.fromJson(x))),
-        pokemonRequiredForEvolution: List<PokemonSpecies>.from(
-            json["required_for_evolution"]
-                .map((x) => PokemonSpeciesMapper.fromJson(x))),
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
+        pokemonSpeciesDetails: (json["pokemon_species_details"] as List<dynamic>?)
+                ?.map((x) => PokemonSpeciesDetailMapper.fromJson(x))
+                .toList() ??
+            [],
+        pokemonRequiredForEvolution: (json["required_for_evolution"] as List<dynamic>?)
+                ?.map((x) => PokemonSpeciesMapper.fromJson(x))
+                .toList() ??
+            [],
       );
 
   Map<String, dynamic> toJson() => {

@@ -21,13 +21,15 @@ class ExploreDataSourceImpl implements ExploreDataSource {
       await Future.wait(mappedResponse.pokemonSpeciesDetails
           .map((pokemonSpeciesDetail) async {
         response = await apiDio.get(pokemonSpeciesDetail.pokemonSpecies.url);
-        PokemonSpeciesAboutResponse mappedResponse =
+        PokemonSpeciesAboutResponse pokemonSpeciesAboutResponse =
             PokemonSpeciesAboutResponse.fromJson(response);
 
-        await Future.wait(mappedResponse.varieties.map((variety) async {
+        await Future.wait(
+            pokemonSpeciesAboutResponse.varieties.map((variety) async {
           response = await apiDio.get(variety.pokemon.url);
           PokemonDetail pokemonDetail = PokemonDetail.fromJson(response);
           variety.pokemon.pokemonDetail = pokemonDetail;
+          pokemonSpeciesDetail.pokemonSpecies.pokemonDetail = pokemonDetail;
         }));
       }));
 

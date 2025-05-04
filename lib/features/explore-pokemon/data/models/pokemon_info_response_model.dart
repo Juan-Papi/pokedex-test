@@ -44,30 +44,60 @@ class PokemonDetail {
   });
 
   factory PokemonDetail.fromJson(Map<String, dynamic> json) => PokemonDetail(
-        abilities: List<Ability>.from(
-            json["abilities"].map((x) => Ability.fromJson(x))),
-        baseExperience: json["base_experience"],
-        cries: Cries.fromJson(json["cries"]),
-        forms:
-            List<Species>.from(json["forms"].map((x) => Species.fromJson(x))),
-        gameIndices: List<GameIndex>.from(
-            json["game_indices"].map((x) => GameIndex.fromJson(x))),
-        height: json["height"],
-        heldItems: List<dynamic>.from(json["held_items"].map((x) => x)),
-        id: json["id"],
-        isDefault: json["is_default"],
-        locationAreaEncounters: json["location_area_encounters"],
-        moves: List<Move>.from(json["moves"].map((x) => Move.fromJson(x))),
-        name: json["name"],
-        order: json["order"],
-        pastAbilities: List<PastAbility>.from(
-            json["past_abilities"].map((x) => PastAbility.fromJson(x))),
-        pastTypes: List<dynamic>.from(json["past_types"].map((x) => x)),
-        species: Species.fromJson(json["species"]),
-        sprites: Sprites.fromJson(json["sprites"]),
-        stats: List<Stat>.from(json["stats"].map((x) => Stat.fromJson(x))),
-        types: List<Type>.from(json["types"].map((x) => Type.fromJson(x))),
-        weight: json["weight"],
+        abilities: (json["abilities"] as List<dynamic>?)
+                ?.map((x) => Ability.fromJson(x))
+                .toList() ??
+            [],
+        baseExperience: json["base_experience"] ?? 0,
+        cries: json["cries"] != null ? Cries.fromJson(json["cries"]) : Cries(latest: '', legacy: ''),
+        forms: (json["forms"] as List<dynamic>?)
+                ?.map((x) => Species.fromJson(x))
+                .toList() ??
+            [],
+        gameIndices: (json["game_indices"] as List<dynamic>?)
+                ?.map((x) => GameIndex.fromJson(x))
+                .toList() ??
+            [],
+        height: json["height"] ?? 0,
+        heldItems: json["held_items"] as List<dynamic>? ?? [],
+        id: json["id"] ?? 0,
+        isDefault: json["is_default"] ?? false,
+        locationAreaEncounters: json["location_area_encounters"] ?? '',
+        moves: (json["moves"] as List<dynamic>?)
+                ?.map((x) => Move.fromJson(x))
+                .toList() ??
+            [],
+        name: json["name"] ?? '',
+        order: json["order"] ?? 0,
+        pastAbilities: (json["past_abilities"] as List<dynamic>?)
+                ?.map((x) => PastAbility.fromJson(x))
+                .toList() ??
+            [],
+        pastTypes: json["past_types"] as List<dynamic>? ?? [],
+        species: json["species"] != null
+            ? Species.fromJson(json["species"])
+            : Species(name: '', url: ''),
+        sprites: json["sprites"] != null
+            ? Sprites.fromJson(json["sprites"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
+        stats: (json["stats"] as List<dynamic>?)
+                ?.map((x) => Stat.fromJson(x))
+                .toList() ??
+            [],
+        types: (json["types"] as List<dynamic>?)
+                ?.map((x) => Type.fromJson(x))
+                .toList() ??
+            [],
+        weight: json["weight"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,10 +137,9 @@ class Ability {
   });
 
   factory Ability.fromJson(Map<String, dynamic> json) => Ability(
-        ability:
-            json["ability"] == null ? null : Species.fromJson(json["ability"]),
-        isHidden: json["is_hidden"],
-        slot: json["slot"],
+        ability: json["ability"] != null ? Species.fromJson(json["ability"]) : null,
+        isHidden: json["is_hidden"] ?? false,
+        slot: json["slot"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -130,8 +159,8 @@ class Species {
   });
 
   factory Species.fromJson(Map<String, dynamic> json) => Species(
-        name: json["name"],
-        url: json["url"],
+        name: json["name"] ?? '',
+        url: json["url"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -150,8 +179,8 @@ class Cries {
   });
 
   factory Cries.fromJson(Map<String, dynamic> json) => Cries(
-        latest: json["latest"],
-        legacy: json["legacy"],
+        latest: json["latest"] ?? '',
+        legacy: json["legacy"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -170,8 +199,8 @@ class GameIndex {
   });
 
   factory GameIndex.fromJson(Map<String, dynamic> json) => GameIndex(
-        gameIndex: json["game_index"],
-        version: Species.fromJson(json["version"]),
+        gameIndex: json["game_index"] ?? 0,
+        version: json["version"] != null ? Species.fromJson(json["version"]) : Species(name: '', url: ''),
       );
 
   Map<String, dynamic> toJson() => {
@@ -190,10 +219,11 @@ class Move {
   });
 
   factory Move.fromJson(Map<String, dynamic> json) => Move(
-        move: Species.fromJson(json["move"]),
-        versionGroupDetails: List<VersionGroupDetail>.from(
-            json["version_group_details"]
-                .map((x) => VersionGroupDetail.fromJson(x))),
+        move: json["move"] != null ? Species.fromJson(json["move"]) : Species(name: '', url: ''),
+        versionGroupDetails: (json["version_group_details"] as List<dynamic>?)
+                ?.map((x) => VersionGroupDetail.fromJson(x))
+                .toList() ??
+            [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -218,10 +248,14 @@ class VersionGroupDetail {
 
   factory VersionGroupDetail.fromJson(Map<String, dynamic> json) =>
       VersionGroupDetail(
-        levelLearnedAt: json["level_learned_at"],
-        moveLearnMethod: Species.fromJson(json["move_learn_method"]),
+        levelLearnedAt: json["level_learned_at"] ?? 0,
+        moveLearnMethod: json["move_learn_method"] != null
+            ? Species.fromJson(json["move_learn_method"])
+            : Species(name: '', url: ''),
         order: json["order"],
-        versionGroup: Species.fromJson(json["version_group"]),
+        versionGroup: json["version_group"] != null
+            ? Species.fromJson(json["version_group"])
+            : Species(name: '', url: ''),
       );
 
   Map<String, dynamic> toJson() => {
@@ -242,9 +276,13 @@ class PastAbility {
   });
 
   factory PastAbility.fromJson(Map<String, dynamic> json) => PastAbility(
-        abilities: List<Ability>.from(
-            json["abilities"].map((x) => Ability.fromJson(x))),
-        generation: Species.fromJson(json["generation"]),
+        abilities: (json["abilities"] as List<dynamic>?)
+                ?.map((x) => Ability.fromJson(x))
+                .toList() ??
+            [],
+        generation: json["generation"] != null
+            ? Species.fromJson(json["generation"])
+            : Species(name: '', url: ''),
       );
 
   Map<String, dynamic> toJson() => {
@@ -261,7 +299,18 @@ class GenerationV {
   });
 
   factory GenerationV.fromJson(Map<String, dynamic> json) => GenerationV(
-        blackWhite: Sprites.fromJson(json["black-white"]),
+        blackWhite: json["black-white"] != null
+            ? Sprites.fromJson(json["black-white"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -281,9 +330,42 @@ class GenerationIv {
   });
 
   factory GenerationIv.fromJson(Map<String, dynamic> json) => GenerationIv(
-        diamondPearl: Sprites.fromJson(json["diamond-pearl"]),
-        heartgoldSoulsilver: Sprites.fromJson(json["heartgold-soulsilver"]),
-        platinum: Sprites.fromJson(json["platinum"]),
+        diamondPearl: json["diamond-pearl"] != null
+            ? Sprites.fromJson(json["diamond-pearl"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
+        heartgoldSoulsilver: json["heartgold-soulsilver"] != null
+            ? Sprites.fromJson(json["heartgold-soulsilver"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
+        platinum: json["platinum"] != null
+            ? Sprites.fromJson(json["platinum"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -315,15 +397,154 @@ class Versions {
   });
 
   factory Versions.fromJson(Map<String, dynamic> json) => Versions(
-        generationI: GenerationI.fromJson(json["generation-i"]),
-        generationIi: GenerationIi.fromJson(json["generation-ii"]),
-        generationIii: GenerationIii.fromJson(json["generation-iii"]),
-        generationIv: GenerationIv.fromJson(json["generation-iv"]),
-        generationV: GenerationV.fromJson(json["generation-v"]),
-        generationVi: Map.from(json["generation-vi"])
-            .map((k, v) => MapEntry<String, Home>(k, Home.fromJson(v))),
-        generationVii: GenerationVii.fromJson(json["generation-vii"]),
-        generationViii: GenerationViii.fromJson(json["generation-viii"]),
+        generationI: json["generation-i"] != null
+            ? GenerationI.fromJson(json["generation-i"])
+            : GenerationI(
+                redBlue: RedBlue(
+                  backDefault: '',
+                  backGray: '',
+                  backTransparent: '',
+                  frontDefault: '',
+                  frontGray: '',
+                  frontTransparent: '',
+                ),
+                yellow: RedBlue(
+                  backDefault: '',
+                  backGray: '',
+                  backTransparent: '',
+                  frontDefault: '',
+                  frontGray: '',
+                  frontTransparent: '',
+                ),
+              ),
+        generationIi: json["generation-ii"] != null
+            ? GenerationIi.fromJson(json["generation-ii"])
+            : GenerationIi(
+                crystal: Crystal(
+                  backDefault: '',
+                  backShiny: '',
+                  backShinyTransparent: '',
+                  backTransparent: '',
+                  frontDefault: '',
+                  frontShiny: '',
+                  frontShinyTransparent: '',
+                  frontTransparent: '',
+                ),
+                gold: Gold(
+                  backDefault: '',
+                  backShiny: '',
+                  frontDefault: '',
+                  frontShiny: '',
+                  frontTransparent: null,
+                ),
+                silver: Gold(
+                  backDefault: '',
+                  backShiny: '',
+                  frontDefault: '',
+                  frontShiny: '',
+                  frontTransparent: null,
+                ),
+              ),
+        generationIii: json["generation-iii"] != null
+            ? GenerationIii.fromJson(json["generation-iii"])
+            : GenerationIii(
+                emerald: OfficialArtwork(
+                  frontDefault: '',
+                  frontShiny: '',
+                ),
+                fireredLeafgreen: Gold(
+                  backDefault: '',
+                  backShiny: '',
+                  frontDefault: '',
+                  frontShiny: '',
+                  frontTransparent: null,
+                ),
+                rubySapphire: Gold(
+                  backDefault: '',
+                  backShiny: '',
+                  frontDefault: '',
+                  frontShiny: '',
+                  frontTransparent: null,
+                ),
+              ),
+        generationIv: json["generation-iv"] != null
+            ? GenerationIv.fromJson(json["generation-iv"])
+            : GenerationIv(
+                diamondPearl: Sprites(
+                  backDefault: '',
+                  backFemale: null,
+                  backShiny: '',
+                  backShinyFemale: null,
+                  frontDefault: '',
+                  frontFemale: null,
+                  frontShiny: '',
+                  frontShinyFemale: null,
+                ),
+                heartgoldSoulsilver: Sprites(
+                  backDefault: '',
+                  backFemale: null,
+                  backShiny: '',
+                  backShinyFemale: null,
+                  frontDefault: '',
+                  frontFemale: null,
+                  frontShiny: '',
+                  frontShinyFemale: null,
+                ),
+                platinum: Sprites(
+                  backDefault: '',
+                  backFemale: null,
+                  backShiny: '',
+                  backShinyFemale: null,
+                  frontDefault: '',
+                  frontFemale: null,
+                  frontShiny: '',
+                  frontShinyFemale: null,
+                ),
+              ),
+        generationV: json["generation-v"] != null
+            ? GenerationV.fromJson(json["generation-v"])
+            : GenerationV(
+                blackWhite: Sprites(
+                  backDefault: '',
+                  backFemale: null,
+                  backShiny: '',
+                  backShinyFemale: null,
+                  frontDefault: '',
+                  frontFemale: null,
+                  frontShiny: '',
+                  frontShinyFemale: null,
+                ),
+              ),
+        generationVi: json["generation-vi"] != null
+            ? Map.from(json["generation-vi"]).map(
+                (k, v) => MapEntry<String, Home>(
+                  k,
+                  v != null ? Home.fromJson(v) : Home(frontDefault: '', frontFemale: null, frontShiny: '', frontShinyFemale: null),
+                ),
+              )
+            : {},
+        generationVii: json["generation-vii"] != null
+            ? GenerationVii.fromJson(json["generation-vii"])
+            : GenerationVii(
+                icons: DreamWorld(
+                  frontDefault: '',
+                  frontFemale: null,
+                ),
+                ultraSunUltraMoon: Home(
+                  frontDefault: '',
+                  frontFemale: null,
+                  frontShiny: '',
+                  frontShinyFemale: null,
+                ),
+              ),
+        generationViii: json["generation-viii"] != null
+            ? GenerationViii.fromJson(json["generation-viii"])
+            : GenerationViii(
+                icons: DreamWorld(
+                  frontDefault: '',
+                  frontFemale: null,
+                ),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -353,10 +574,27 @@ class Other {
   });
 
   factory Other.fromJson(Map<String, dynamic> json) => Other(
-        dreamWorld: DreamWorld.fromJson(json["dream_world"]),
-        home: Home.fromJson(json["home"]),
-        officialArtwork: OfficialArtwork.fromJson(json["official-artwork"]),
-        showdown: Sprites.fromJson(json["showdown"]),
+        dreamWorld: json["dream_world"] != null
+            ? DreamWorld.fromJson(json["dream_world"])
+            : DreamWorld(frontDefault: '', frontFemale: null),
+        home: json["home"] != null
+            ? Home.fromJson(json["home"])
+            : Home(frontDefault: '', frontFemale: null, frontShiny: '', frontShinyFemale: null),
+        officialArtwork: json["official-artwork"] != null
+            ? OfficialArtwork.fromJson(json["official-artwork"])
+            : OfficialArtwork(frontDefault: '', frontShiny: ''),
+        showdown: json["showdown"] != null
+            ? Sprites.fromJson(json["showdown"])
+            : Sprites(
+                backDefault: '',
+                backFemale: null,
+                backShiny: '',
+                backShinyFemale: null,
+                frontDefault: '',
+                frontFemale: null,
+                frontShiny: '',
+                frontShinyFemale: null,
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -395,21 +633,17 @@ class Sprites {
   });
 
   factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
-        backDefault: json["back_default"],
+        backDefault: json["back_default"] ?? '',
         backFemale: json["back_female"],
-        backShiny: json["back_shiny"],
+        backShiny: json["back_shiny"] ?? '',
         backShinyFemale: json["back_shiny_female"],
-        frontDefault: json["front_default"],
+        frontDefault: json["front_default"] ?? '',
         frontFemale: json["front_female"],
-        frontShiny: json["front_shiny"],
+        frontShiny: json["front_shiny"] ?? '',
         frontShinyFemale: json["front_shiny_female"],
-        other: json["other"] == null ? null : Other.fromJson(json["other"]),
-        versions: json["versions"] == null
-            ? null
-            : Versions.fromJson(json["versions"]),
-        animated: json["animated"] == null
-            ? null
-            : Sprites.fromJson(json["animated"]),
+        other: json["other"] != null ? Other.fromJson(json["other"]) : null,
+        versions: json["versions"] != null ? Versions.fromJson(json["versions"]) : null,
+        animated: json["animated"] != null ? Sprites.fromJson(json["animated"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -437,8 +671,26 @@ class GenerationI {
   });
 
   factory GenerationI.fromJson(Map<String, dynamic> json) => GenerationI(
-        redBlue: RedBlue.fromJson(json["red-blue"]),
-        yellow: RedBlue.fromJson(json["yellow"]),
+        redBlue: json["red-blue"] != null
+            ? RedBlue.fromJson(json["red-blue"])
+            : RedBlue(
+                backDefault: '',
+                backGray: '',
+                backTransparent: '',
+                frontDefault: '',
+                frontGray: '',
+                frontTransparent: '',
+              ),
+        yellow: json["yellow"] != null
+            ? RedBlue.fromJson(json["yellow"])
+            : RedBlue(
+                backDefault: '',
+                backGray: '',
+                backTransparent: '',
+                frontDefault: '',
+                frontGray: '',
+                frontTransparent: '',
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -465,12 +717,12 @@ class RedBlue {
   });
 
   factory RedBlue.fromJson(Map<String, dynamic> json) => RedBlue(
-        backDefault: json["back_default"],
-        backGray: json["back_gray"],
-        backTransparent: json["back_transparent"],
-        frontDefault: json["front_default"],
-        frontGray: json["front_gray"],
-        frontTransparent: json["front_transparent"],
+        backDefault: json["back_default"] ?? '',
+        backGray: json["back_gray"] ?? '',
+        backTransparent: json["back_transparent"] ?? '',
+        frontDefault: json["front_default"] ?? '',
+        frontGray: json["front_gray"] ?? '',
+        frontTransparent: json["front_transparent"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -495,9 +747,36 @@ class GenerationIi {
   });
 
   factory GenerationIi.fromJson(Map<String, dynamic> json) => GenerationIi(
-        crystal: Crystal.fromJson(json["crystal"]),
-        gold: Gold.fromJson(json["gold"]),
-        silver: Gold.fromJson(json["silver"]),
+        crystal: json["crystal"] != null
+            ? Crystal.fromJson(json["crystal"])
+            : Crystal(
+                backDefault: '',
+                backShiny: '',
+                backShinyTransparent: '',
+                backTransparent: '',
+                frontDefault: '',
+                frontShiny: '',
+                frontShinyTransparent: '',
+                frontTransparent: '',
+              ),
+        gold: json["gold"] != null
+            ? Gold.fromJson(json["gold"])
+            : Gold(
+                backDefault: '',
+                backShiny: '',
+                frontDefault: '',
+                frontShiny: '',
+                frontTransparent: null,
+              ),
+        silver: json["silver"] != null
+            ? Gold.fromJson(json["silver"])
+            : Gold(
+                backDefault: '',
+                backShiny: '',
+                frontDefault: '',
+                frontShiny: '',
+                frontTransparent: null,
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -529,14 +808,14 @@ class Crystal {
   });
 
   factory Crystal.fromJson(Map<String, dynamic> json) => Crystal(
-        backDefault: json["back_default"],
-        backShiny: json["back_shiny"],
-        backShinyTransparent: json["back_shiny_transparent"],
-        backTransparent: json["back_transparent"],
-        frontDefault: json["front_default"],
-        frontShiny: json["front_shiny"],
-        frontShinyTransparent: json["front_shiny_transparent"],
-        frontTransparent: json["front_transparent"],
+        backDefault: json["back_default"] ?? '',
+        backShiny: json["back_shiny"] ?? '',
+        backShinyTransparent: json["back_shiny_transparent"] ?? '',
+        backTransparent: json["back_transparent"] ?? '',
+        frontDefault: json["front_default"] ?? '',
+        frontShiny: json["front_shiny"] ?? '',
+        frontShinyTransparent: json["front_shiny_transparent"] ?? '',
+        frontTransparent: json["front_transparent"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -567,10 +846,10 @@ class Gold {
   });
 
   factory Gold.fromJson(Map<String, dynamic> json) => Gold(
-        backDefault: json["back_default"],
-        backShiny: json["back_shiny"],
-        frontDefault: json["front_default"],
-        frontShiny: json["front_shiny"],
+        backDefault: json["back_default"] ?? '',
+        backShiny: json["back_shiny"] ?? '',
+        frontDefault: json["front_default"] ?? '',
+        frontShiny: json["front_shiny"] ?? '',
         frontTransparent: json["front_transparent"],
       );
 
@@ -595,9 +874,15 @@ class GenerationIii {
   });
 
   factory GenerationIii.fromJson(Map<String, dynamic> json) => GenerationIii(
-        emerald: OfficialArtwork.fromJson(json["emerald"]),
-        fireredLeafgreen: Gold.fromJson(json["firered-leafgreen"]),
-        rubySapphire: Gold.fromJson(json["ruby-sapphire"]),
+        emerald: json["emerald"] != null
+            ? OfficialArtwork.fromJson(json["emerald"])
+            : OfficialArtwork(frontDefault: '', frontShiny: ''),
+        fireredLeafgreen: json["firered-leafgreen"] != null
+            ? Gold.fromJson(json["firered-leafgreen"])
+            : Gold(backDefault: '', backShiny: '', frontDefault: '', frontShiny: '', frontTransparent: null),
+        rubySapphire: json["ruby-sapphire"] != null
+            ? Gold.fromJson(json["ruby-sapphire"])
+            : Gold(backDefault: '', backShiny: '', frontDefault: '', frontShiny: '', frontTransparent: null),
       );
 
   Map<String, dynamic> toJson() => {
@@ -618,8 +903,8 @@ class OfficialArtwork {
 
   factory OfficialArtwork.fromJson(Map<String, dynamic> json) =>
       OfficialArtwork(
-        frontDefault: json["front_default"],
-        frontShiny: json["front_shiny"],
+        frontDefault: json["front_default"] ?? '',
+        frontShiny: json["front_shiny"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -642,9 +927,9 @@ class Home {
   });
 
   factory Home.fromJson(Map<String, dynamic> json) => Home(
-        frontDefault: json["front_default"],
+        frontDefault: json["front_default"] ?? '',
         frontFemale: json["front_female"],
-        frontShiny: json["front_shiny"],
+        frontShiny: json["front_shiny"] ?? '',
         frontShinyFemale: json["front_shiny_female"],
       );
 
@@ -666,8 +951,12 @@ class GenerationVii {
   });
 
   factory GenerationVii.fromJson(Map<String, dynamic> json) => GenerationVii(
-        icons: DreamWorld.fromJson(json["icons"]),
-        ultraSunUltraMoon: Home.fromJson(json["ultra-sun-ultra-moon"]),
+        icons: json["icons"] != null
+            ? DreamWorld.fromJson(json["icons"])
+            : DreamWorld(frontDefault: '', frontFemale: null),
+        ultraSunUltraMoon: json["ultra-sun-ultra-moon"] != null
+            ? Home.fromJson(json["ultra-sun-ultra-moon"])
+            : Home(frontDefault: '', frontFemale: null, frontShiny: '', frontShinyFemale: null),
       );
 
   Map<String, dynamic> toJson() => {
@@ -684,9 +973,8 @@ class DreamWorld {
     required this.frontDefault,
     required this.frontFemale,
   });
-
   factory DreamWorld.fromJson(Map<String, dynamic> json) => DreamWorld(
-        frontDefault: json["front_default"],
+        frontDefault: json["front_default"] ?? '',
         frontFemale: json["front_female"],
       );
 
@@ -704,7 +992,9 @@ class GenerationViii {
   });
 
   factory GenerationViii.fromJson(Map<String, dynamic> json) => GenerationViii(
-        icons: DreamWorld.fromJson(json["icons"]),
+        icons: json["icons"] != null
+            ? DreamWorld.fromJson(json["icons"])
+            : DreamWorld(frontDefault: '', frontFemale: null),
       );
 
   Map<String, dynamic> toJson() => {
@@ -724,9 +1014,9 @@ class Stat {
   });
 
   factory Stat.fromJson(Map<String, dynamic> json) => Stat(
-        baseStat: json["base_stat"],
-        effort: json["effort"],
-        stat: Species.fromJson(json["stat"]),
+        baseStat: json["base_stat"] ?? 0,
+        effort: json["effort"] ?? 0,
+        stat: json["stat"] != null ? Species.fromJson(json["stat"]) : Species(name: '', url: ''),
       );
 
   Map<String, dynamic> toJson() => {
@@ -746,8 +1036,8 @@ class Type {
   });
 
   factory Type.fromJson(Map<String, dynamic> json) => Type(
-        slot: json["slot"],
-        type: Species.fromJson(json["type"]),
+        slot: json["slot"] ?? 0,
+        type: json["type"] != null ? Species.fromJson(json["type"]) : Species(name: '', url: ''),
       );
 
   Map<String, dynamic> toJson() => {
