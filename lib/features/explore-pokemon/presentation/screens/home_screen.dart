@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/core/utils/toast_utils.dart';
 import 'package:pokedex/features/explore-pokemon/presentation/providers/language_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -98,12 +99,19 @@ class HomeScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, AppLanguage language) {
     ref.read(languageProvider.notifier).setLanguage(language);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Idioma seleccionado: ${language.name}'),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.green.shade700,
-      ),
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text('Idioma seleccionado: ${language.name}'),
+    //     duration: const Duration(seconds: 2),
+    //     backgroundColor: Colors.green.shade700,
+    //   ),
+    // );
+
+    ToastUtils.showCustomToast(
+      context,
+      'Idioma seleccionado: ${language.name}',
+      backgroundColor: Colors.green.shade700,
+      icon: Icons.check_circle,
     );
 
     context.push('/explore');

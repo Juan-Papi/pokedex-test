@@ -7,37 +7,34 @@ import 'package:pokedex/features/explore-pokemon/domain/usecases/explore_usecase
 final exploreUseCaseProvider = Provider<ExploreUseCase>((ref) {
   return ExploreUseCase();
 });
-/// Provider para el PokemonMapNotifier
+
 final pokemonMapNotifierProvider =
     StateNotifierProvider<PokemonMapNotifier, PokemonMapState>((ref) {
   final exploreUseCase = ref.read(exploreUseCaseProvider);
   final notifier = PokemonMapNotifier(exploreUseCase);
-  notifier.loadPokemons(); // Carga inicial
+  notifier.loadPokemons(); 
   return notifier;
 });
 
-/// Notifier que carga y gestiona los Pokémon para mostrar en el mapa
+
 class PokemonMapNotifier extends StateNotifier<PokemonMapState> {
   final ExploreUseCase _exploreUseCase;
   final Random _random = Random();
 
   PokemonMapNotifier(this._exploreUseCase) : super(PokemonMapState.initial());
 
-  /// Límite geográfico aproximado del territorio de Bolivia
+
   static const double _minLat = -22.9;
   static const double _maxLat = -9.7;
   static const double _minLng = -69.6;
   static const double _maxLng = -57.4;
 
-  /// Método para generar una latitud aleatoria dentro del rango
   double _randomLatitude() =>
       _minLat + _random.nextDouble() * (_maxLat - _minLat);
 
-  /// Método para generar una longitud aleatoria dentro del rango
   double _randomLongitude() =>
       _minLng + _random.nextDouble() * (_maxLng - _minLng);
 
-  /// Carga los Pokémon y asigna posiciones aleatorias en Bolivia
   Future<void> loadPokemons() async {
     try {
       state = state.copyWith(isLoading: true, error: null);
@@ -45,7 +42,6 @@ class PokemonMapNotifier extends StateNotifier<PokemonMapState> {
       final List<PokemonSpeciesDetail> pokemonList =
           await _exploreUseCase.getPokemonSpecies();
 
-      // Generar posiciones aleatorias para cada Pokémon
       final List<PokemonWithPosition> pokemonsWithPositions = pokemonList
           .map(
             (detail) => PokemonWithPosition(
@@ -63,7 +59,6 @@ class PokemonMapNotifier extends StateNotifier<PokemonMapState> {
   }
 }
 
-/// Clase que une el Pokémon con una posición LatLng
 class PokemonWithPosition {
   final PokemonSpeciesDetail detail;
   final LatLng position;
@@ -74,7 +69,6 @@ class PokemonWithPosition {
   });
 }
 
-/// Estado que contiene cada Pokémon con su posición en el mapa
 class PokemonMapState {
   final List<PokemonWithPosition> pokemons;
   final bool isLoading;
