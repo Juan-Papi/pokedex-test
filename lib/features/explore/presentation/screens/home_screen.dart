@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedex/features/explore/presentation/providers/language_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -111,6 +112,7 @@ class HomeScreen extends ConsumerWidget {
     // Navigator.of(context).pushReplacement(
     //   MaterialPageRoute(builder: (_) => const PokemonListScreen()),
     // );
+    context.push('/explore');
 
     // Por ahora, simplemente mostraremos un mensaje
     Future.delayed(const Duration(seconds: 2), () {

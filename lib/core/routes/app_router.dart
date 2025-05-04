@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/features/explore/presentation/screens/explorer_screen.dart';
 import 'package:pokedex/features/explore/presentation/screens/home_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -8,6 +9,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/explore',
+        builder: (context, state) => const ExplorerScreen(),
       ),
     ],
   );
