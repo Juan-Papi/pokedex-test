@@ -1,5 +1,5 @@
-import 'package:pokedex/features/pokemon/data/mappers/mappers.dart';
-import 'package:pokedex/features/pokemon/domain/entities/entities.dart';
+import 'package:pokedex/features/explore-pokemon/data/mappers/mappers.dart';
+import 'package:pokedex/features/explore-pokemon/domain/entities/entities.dart';
 
 class PokemonResponse {
   final int id;

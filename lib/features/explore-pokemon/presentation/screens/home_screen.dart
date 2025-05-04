@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/features/explore/presentation/providers/language_provider.dart';
+import 'package:pokedex/features/explore-pokemon/presentation/providers/language_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -96,10 +96,8 @@ class HomeScreen extends ConsumerWidget {
 
   void _selectLanguage(
       BuildContext context, WidgetRef ref, AppLanguage language) {
-    // Actualizar el estado del idioma
     ref.read(languageProvider.notifier).setLanguage(language);
 
-    // Mostrar un snackbar con la selección
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Idioma seleccionado: ${language.name}'),
@@ -108,31 +106,7 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    // Aquí puedes navegar a la siguiente pantalla
-    // Navigator.of(context).pushReplacement(
-    //   MaterialPageRoute(builder: (_) => const PokemonListScreen()),
-    // );
     context.push('/explore');
-
-    // Por ahora, simplemente mostraremos un mensaje
-    Future.delayed(const Duration(seconds: 2), () {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Idioma configurado'),
-          content: Text(
-            'La aplicación ahora usará el idioma ${language.name} (${language.code}).\n\n'
-            'Implementa la navegación a la siguiente pantalla aquí.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    });
   }
 }
 

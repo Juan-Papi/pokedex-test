@@ -1,5 +1,5 @@
-import 'package:pokedex/features/pokemon/data/mappers/pokemon_species_mapper.dart';
-import 'package:pokedex/features/pokemon/domain/entities/pokemon_species_detail_entity.dart';
+import 'package:pokedex/features/explore-pokemon/data/mappers/pokemon_species_mapper.dart';
+import 'package:pokedex/features/explore-pokemon/domain/entities/pokemon_species_detail_entity.dart';
 
 class PokemonSpeciesDetailMapper {
   const PokemonSpeciesDetailMapper._();

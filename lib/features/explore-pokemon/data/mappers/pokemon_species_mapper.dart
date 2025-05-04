@@ -1,4 +1,4 @@
-import 'package:pokedex/features/pokemon/domain/entities/pokemon_species_entity.dart';
+import 'package:pokedex/features/explore-pokemon/domain/entities/pokemon_species_entity.dart';
 
 class PokemonSpeciesMapper {
   const PokemonSpeciesMapper._();
